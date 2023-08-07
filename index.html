@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="styles.css">
+    
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.155.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.155.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module" src="./helpers/three.js"></script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { loadGLTF } from './helpers/three.js'
+
+        const canvasDimension = {
+            width: window.screen.width / 3,
+            height: window.screen.width / 3
+        };
+
+        const scene = new THREE.Scene();
+        const renderer = new THREE.WebGLRenderer();
+        const camera = new THREE.PerspectiveCamera(
+            45,
+            canvasDimension.width / canvasDimension.height,
+            1,
+            1000
+        );
+        
+        scene.background = new THREE.Color("white");
+        camera.position.set(0, 0, 10);
+        
+        renderer.setSize(canvasDimension.width, canvasDimension.height);
+        renderer.render(scene,camera);
+        
+        document.getElementById('webgl').appendChild(renderer.domElement);
+
+        await loadGLTF("./objects/ModernCozy/teal.gltf", scene, renderer, camera);
+    </script>
+
+    <title>Sofas Centre</title>
+</head>
+
+<body>
+    <div class="container">
+        <div
+            class="header-container"
+        >
+            <h1 class="header-title">Sofas Centre</h1>
+            <a href="all-sofas.html">
+                <button class="header-action-button" href>See all sofas</button>
+            </a>
+        </div>
+    
+        <div class="home-content-container">
+            <p class="home-tagline">
+                Long day at work?
+                <br />
+                Come home to our soothing sofas!
+            </p>
+    
+            <div id="webgl"></div>
+        </div>
+    </div>
+</body>
+</html>
